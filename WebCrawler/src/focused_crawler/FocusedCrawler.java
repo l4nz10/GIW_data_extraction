@@ -58,7 +58,7 @@ public class FocusedCrawler extends WebCrawler {
 			try {
 				String docID = IdManager.getID();
 				HTMLFileWriter.writeToHTMLFile(docID, page);
-				DataExtractor.extractData(docID, page);
+				new DataExtractor(docID, page).extractData();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

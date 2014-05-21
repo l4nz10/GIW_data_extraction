@@ -18,6 +18,7 @@ public class HTMLFileWriter {
 	private static Map<String, String> id2url = new HashMap<String, String>(); 
 	
 	public static void writeToHTMLFile(String docID, Page page) throws IOException {
+		
 		String domain = page.getWebURL().getDomain();
 		String path = page.getWebURL().getPath();
 		String subDomain = page.getWebURL().getSubDomain();
