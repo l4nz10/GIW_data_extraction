@@ -14,9 +14,9 @@ import edu.uci.ics.crawler4j.crawler.Page;
 
 public class HTMLFileWriter {
 	
-	private static ConfigReader cr = new ConfigReader();
-	private static final String PATH = cr.getDataPath();			//"C:\\GIW_Data_Extraction\\page_list\\";
-	private static final String INDEX_NAME = cr.getIndexFileName();	//"id2url.txt";
+	
+	private static final String PATH = ConfigReader.getDataPath();			//"C:\\GIW_Data_Extraction\\page_list\\";
+	private static final String INDEX_NAME = ConfigReader.getIndexFileName();	//"id2url.txt";
 	
 	public static void writeToHTMLFile(String docID, Page page) throws IOException {
 		

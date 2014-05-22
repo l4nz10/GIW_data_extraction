@@ -11,9 +11,8 @@ public class Controller {
 	
 	public static void main(String[] args) throws Exception {
 		
-		ConfigReader cr = new ConfigReader();
-		
-		String crawlStorageFolder = cr.getStorageFolderPath();	//"C:\\crawl_tmp";
+	
+		String crawlStorageFolder = ConfigReader.getStorageFolderPath();	//"C:\\crawl_tmp";
 
 		/*
 		 * numberOfCrawlers shows the number of concurrent threads that should
@@ -29,7 +28,7 @@ public class Controller {
 		 * Be polite: Make sure that we don't send more than 1 request per
 		 * second (1000 milliseconds between requests).
 		 */
-		config.setPolitenessDelay(1000);
+		config.setPolitenessDelay(ConfigReader.getTimeout());
 
 		/*
 		 * You can set the maximum crawl depth here. The default value is -1 for
@@ -41,7 +40,7 @@ public class Controller {
 		 * You can set the maximum number of pages to crawl. The default value
 		 * is -1 for unlimited number of pages
 		 */
-		config.setMaxPagesToFetch(30);
+		config.setMaxPagesToFetch(6000);
 
 		/*
 		 * This config parameter can be used to set your crawl to be resumable

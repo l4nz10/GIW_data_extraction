@@ -16,9 +16,9 @@ import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.parser.HtmlParseData;
 
 public class DataExtractor {
-	private ConfigReader cr = new ConfigReader();
-	private final String PATH = cr.getDataPath(); 	//"C:\\GIW_Data_Extraction\\page_list\\";
-	private final String FILE_NAME = cr.getCSVFileName(); 	//"data.csv";
+
+	private final String PATH = ConfigReader.getDataPath(); 	//"C:\\GIW_Data_Extraction\\page_list\\";
+	private final String FILE_NAME = ConfigReader.getCSVFileName(); 	//"data.csv";
 	
 	private String docID;
 	private Page page;

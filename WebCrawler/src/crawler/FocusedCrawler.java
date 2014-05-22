@@ -46,13 +46,13 @@ public class FocusedCrawler extends WebCrawler {
 				e.printStackTrace();
 			}
 
-		Header[] responseHeaders = page.getFetchResponseHeaders();
-		if (responseHeaders != null) {
-			System.out.println("Response headers:");
-			for (Header header : responseHeaders) {
-				System.out.println("\t" + header.getName() + ": " + header.getValue());
-			}
-		}
+//		Header[] responseHeaders = page.getFetchResponseHeaders();
+//		if (responseHeaders != null) {
+//			System.out.println("Response headers:");
+//			for (Header header : responseHeaders) {
+//				System.out.println("\t" + header.getName() + ": " + header.getValue());
+//			}
+//		}
 	}
 
 }
