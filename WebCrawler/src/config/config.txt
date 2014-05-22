@@ -1,0 +1,8 @@
+CRAWL STORAGE FOLDER PATH:
+C:\crawl_tmp
+DATA FOLDER PATH:
+C:\GIW_Data_Extraction\page_list\
+INDEX FILE NAME:
+id2url.txt
+CSV FILE NAME:
+data.csv
