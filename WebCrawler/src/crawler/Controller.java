@@ -40,7 +40,7 @@ public class Controller {
 		 * You can set the maximum number of pages to crawl. The default value
 		 * is -1 for unlimited number of pages
 		 */
-		config.setMaxPagesToFetch(6000);
+		config.setMaxPagesToFetch(200);
 
 		/*
 		 * This config parameter can be used to set your crawl to be resumable

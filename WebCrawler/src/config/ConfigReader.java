@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class ConfigReader {
 
-	private static final String FILE_NAME = "Z:\\config.txt";
+	private static final String FILE_NAME = "C:\\config.txt";
 	private static BufferedReader reader = null;
 	private static String storageFolderPath = null;
 	private static String dataPath = null;
@@ -15,28 +15,18 @@ public class ConfigReader {
 	private static String csvFileName = null;
 	private static int timeout = 0;
 
-	// public ConfigReader() {
-	// try {
-	// reader = new BufferedReader(new FileReader(FILE_NAME));
-	// } catch (FileNotFoundException e) {
-	// e.printStackTrace();
-	// }
-	// }
-
 	private static String findAndReturn(String caption) {
 		String line = null;
 		if (reader == null)
 			try {
 				reader = new BufferedReader(new FileReader(FILE_NAME));
 			} catch (FileNotFoundException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		try {
 			do {
 				line = reader.readLine();
-//				System.out.println(line);
-				if (line != null && line.equals(caption)){
+				if (line != null && line.equals(caption)) {
 					String res = reader.readLine();
 					reader = null;
 					return res;

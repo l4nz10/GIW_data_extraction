@@ -1,13 +1,8 @@
 package crawler;
 
-import java.io.IOException;
 import java.util.regex.Pattern;
 
-import org.apache.http.Header;
-
-import data_management.DataExtractor;
-import data_management.HTMLFileWriter;
-import data_management.IdManager;
+import data_management.PageAnalyzer;
 import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
 import edu.uci.ics.crawler4j.url.WebURL;
@@ -35,24 +30,7 @@ public class FocusedCrawler extends WebCrawler {
 //		String parentUrl = page.getWebURL().getParentUrl();
 //		String anchor = page.getWebURL().getAnchor();
 
-		if (page.getWebURL().getPath().contains("/p/"))
-			try {
-				
-				String docID = IdManager.getID();
-				HTMLFileWriter.writeToHTMLFile(docID, page);
-				new DataExtractor(docID, page).extractData();
-				
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-
-//		Header[] responseHeaders = page.getFetchResponseHeaders();
-//		if (responseHeaders != null) {
-//			System.out.println("Response headers:");
-//			for (Header header : responseHeaders) {
-//				System.out.println("\t" + header.getName() + ": " + header.getValue());
-//			}
-//		}
+		PageAnalyzer.checkAndProcess(page);			
 	}
 
 }
