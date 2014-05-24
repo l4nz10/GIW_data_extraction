@@ -1,4 +1,4 @@
-package data_management;
+package novasol_data_management;
 
 public class CsvFormatter {
 	

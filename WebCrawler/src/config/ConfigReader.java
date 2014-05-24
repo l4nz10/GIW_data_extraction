@@ -13,7 +13,9 @@ public class ConfigReader {
 	private static String dataPath = null;
 	private static String indexFileName = null;
 	private static String csvFileName = null;
+	private static String novasolFolderPath = null;
 	private static int timeout = 0;
+	private static String allmusicFolderPath = null;
 
 	private static String findAndReturn(String caption) {
 		String line = null;
@@ -71,6 +73,27 @@ public class ConfigReader {
 			timeout = Integer.parseInt(findAndReturn("TIMEOUT:"));
 		}
 		return timeout;
+	}
+
+	public static String getNovasolFolderPath() {
+		if (novasolFolderPath == null) {
+			novasolFolderPath = findAndReturn("NOVASOL FOLDER PATH:");
+		}
+		return novasolFolderPath;
+	}
+	
+	public static String getMultiplayerFolderPath() {
+		if (novasolFolderPath == null) {
+			novasolFolderPath = findAndReturn("MULTIPLAYER FOLDER PATH:");
+		}
+		return novasolFolderPath;
+	}
+
+	public static String getAllmusicFolderPath() {
+		if (allmusicFolderPath == null) {
+			allmusicFolderPath  = findAndReturn("ALLMUSIC FOLDER PATH:");
+		}
+		return allmusicFolderPath;
 	}
 
 }

@@ -1,4 +1,4 @@
-package data_management;
+package multiplayer_data_management;
 
 public class IdManager {
 	

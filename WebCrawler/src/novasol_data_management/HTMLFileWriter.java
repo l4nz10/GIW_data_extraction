@@ -1,4 +1,4 @@
-package data_management;
+package novasol_data_management;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedWriter;
@@ -15,6 +15,7 @@ import edu.uci.ics.crawler4j.crawler.Page;
 public class HTMLFileWriter {
 	
 	private static final String PATH = ConfigReader.getDataPath();			//"C:\\GIW_Data_Extraction\\page_list\\";
+	private static final String SITE_PATH = ConfigReader.getNovasolFolderPath();
 	private static final String INDEX_NAME = ConfigReader.getIndexFileName();	//"id2url.txt";
 	
 	public static void writeToHTMLFile(String docID, Page page) {
@@ -27,7 +28,7 @@ public class HTMLFileWriter {
 		try {
 			InputStream inStr = new ByteArrayInputStream(page.getContentData());
 			BufferedInputStream buffInStr = new BufferedInputStream(inStr);
-			FileOutputStream fileOutStr = new FileOutputStream(PATH + docID + ".html");
+			FileOutputStream fileOutStr = new FileOutputStream(PATH + SITE_PATH + docID + ".html");
 			int c;
 			while ((c = buffInStr.read()) != -1) {
 				fileOutStr.write(c);
@@ -44,7 +45,7 @@ public class HTMLFileWriter {
 	
 	private static void writeOnIndex(String docID, String url) {
 		try {			
-			File file = new File(PATH + INDEX_NAME);
+			File file = new File(PATH + SITE_PATH + INDEX_NAME);
 			
 			if (!file.exists()) {
 					file.createNewFile();

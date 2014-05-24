@@ -40,7 +40,7 @@ public class Controller {
 		 * You can set the maximum number of pages to crawl. The default value
 		 * is -1 for unlimited number of pages
 		 */
-		config.setMaxPagesToFetch(200);
+		config.setMaxPagesToFetch(500);
 
 		/*
 		 * This config parameter can be used to set your crawl to be resumable
@@ -56,6 +56,7 @@ public class Controller {
 		 */
 		PageFetcher pageFetcher = new PageFetcher(config);
 		RobotstxtConfig robotstxtConfig = new RobotstxtConfig();
+		robotstxtConfig.setEnabled(false);
 		RobotstxtServer robotstxtServer = new RobotstxtServer(robotstxtConfig, pageFetcher);
 		CrawlController controller = new CrawlController(config, pageFetcher, robotstxtServer);
 
@@ -64,14 +65,18 @@ public class Controller {
 		 * URLs that are fetched and then the crawler starts following links
 		 * which are found in these pages
 		 */
-
-		controller.addSeed("http://www.novasol.it/r/380?wt.seg_4=NS_IT_CON2_MAP_380&SD=24-05-2014&ED=31-05-2014");
+		
+		controller.addSeed("http://www.allmusic.com/genres");
+//		controller.addSeed("http://multiplayer.it/articoli/notizie/");
+//		controller.addSeed("http://www.novasol.it/r/380?wt.seg_4=NS_IT_CON2_MAP_380&SD=24-05-2014&ED=31-05-2014");
+		
 
 		/*
 		 * Start the crawl. This is a blocking operation, meaning that your code
 		 * will reach the line after this only when crawling is finished.
 		 */
 		controller.start(FocusedCrawler.class, numberOfCrawlers);
+		System.out.println("Done.");
 	}
 
 }

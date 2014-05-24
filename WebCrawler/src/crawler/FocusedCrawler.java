@@ -2,7 +2,6 @@ package crawler;
 
 import java.util.regex.Pattern;
 
-import data_management.PageAnalyzer;
 import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
 import edu.uci.ics.crawler4j.url.WebURL;
@@ -17,7 +16,7 @@ public class FocusedCrawler extends WebCrawler {
 	@Override
 	public boolean shouldVisit(WebURL url) {
 		String href = url.getURL().toLowerCase();
-		return !FILTERS.matcher(href).matches()	&& (href.startsWith("http://www.novasol.it/r/") || href.startsWith("http://www.novasol.it/p/"));
+		return !FILTERS.matcher(href).matches()	&& shouldVisitPageList(href);
 	}
 
 	@Override
@@ -29,8 +28,15 @@ public class FocusedCrawler extends WebCrawler {
 //		String subDomain = page.getWebURL().getSubDomain();
 //		String parentUrl = page.getWebURL().getParentUrl();
 //		String anchor = page.getWebURL().getAnchor();
-
-		PageAnalyzer.checkAndProcess(page);			
+		
+		novasol_data_management.PageAnalyzer.checkAndProcess(page);
+		multiplayer_data_management.PageAnalyzer.checkAndProcess(page);
+		allmusic_data_management.PageAnalyzer.checkAndProcess(page);
 	}
-
+	
+	public boolean shouldVisitPageList(String href) {
+		return novasol_data_management.PageAnalyzer.shouldVisit(href) ||
+			   multiplayer_data_management.PageAnalyzer.shouldVisit(href) ||
+			   allmusic_data_management.PageAnalyzer.shouldVisit(href);
+	}
 }
