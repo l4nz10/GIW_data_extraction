@@ -22,6 +22,7 @@ import org.w3c.dom.NodeList;
 import com.csvreader.CsvWriter;
 
 import config.ConfigReader;
+import data_management.CSVFormatter;
 import edu.uci.ics.crawler4j.crawler.Page;
 
 public class DataExtractor {
@@ -65,10 +66,10 @@ public class DataExtractor {
 			Document doc = new DomSerializer(new CleanerProperties()).createDOM(root);
 			
 			csvWriter.write(docID);
-			csvWriter.write(this.extractTitle(doc));
-			csvWriter.write(this.extractDescription(doc));
-			csvWriter.write(this.extractImage(doc));
-			csvWriter.write(this.extractInfoList(doc));
+			csvWriter.write(CSVFormatter.format(this.extractTitle(doc)));
+			csvWriter.write(CSVFormatter.format(this.extractDescription(doc)));
+			csvWriter.write(CSVFormatter.format(this.extractImage(doc)));
+			csvWriter.write(CSVFormatter.format(this.extractInfoList(doc)));
 			csvWriter.endRecord();
 			csvWriter.close();
 			

@@ -66,9 +66,9 @@ public class Controller {
 		 * which are found in these pages
 		 */
 		
-		controller.addSeed("http://www.allmusic.com/genres");
+//		controller.addSeed("http://www.allmusic.com/genres");
 //		controller.addSeed("http://multiplayer.it/articoli/notizie/");
-//		controller.addSeed("http://www.novasol.it/r/380?wt.seg_4=NS_IT_CON2_MAP_380&SD=24-05-2014&ED=31-05-2014");
+		controller.addSeed("http://www.novasol.it/r/380?wt.seg_4=NS_IT_CON2_MAP_380&SD=24-05-2014&ED=31-05-2014");
 		
 
 		/*
