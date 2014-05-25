@@ -1,5 +1,6 @@
 package novasol_data_management;
 
+import config.ConfigReader;
 import edu.uci.ics.crawler4j.crawler.Page;
 
 public class PageAnalyzer {
@@ -23,7 +24,7 @@ public class PageAnalyzer {
 	}
 	
 	public static void checkAndProcess(Page page) {
-		if (mustProcess(page))
+		if (mustProcess(page) && IdManager.getId()<ConfigReader.getMaxPage())
 			process(page);
 	}
 }

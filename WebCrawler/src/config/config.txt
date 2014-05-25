@@ -1,8 +1,18 @@
 CRAWL STORAGE FOLDER PATH:
 C:\crawl_tmp
 DATA FOLDER PATH:
-C:\GIW_Data_Extraction\page_list\
+Z:\GIW_Data_Extraction\
+NOVASOL FOLDER PATH:
+novasol\
+MULTIPLAYER FOLDER PATH:
+multiplayer\
+ALLMUSIC FOLDER PATH:
+allmusic\
 INDEX FILE NAME:
 id2url.txt
 CSV FILE NAME:
 data.csv
+TIMEOUT:
+500
+MAX PAGE:
+100

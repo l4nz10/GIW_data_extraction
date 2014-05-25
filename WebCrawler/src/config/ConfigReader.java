@@ -14,7 +14,7 @@ public class ConfigReader {
 	private static String indexFileName = null;
 	private static String csvFileName = null;
 	private static String novasolFolderPath = null;
-	private static int timeout = 0;
+	private static int timeout = 0, maxPage = 0;
 	private static String allmusicFolderPath = null;
 
 	private static String findAndReturn(String caption) {
@@ -94,6 +94,12 @@ public class ConfigReader {
 			allmusicFolderPath  = findAndReturn("ALLMUSIC FOLDER PATH:");
 		}
 		return allmusicFolderPath;
+	}
+	public static int getMaxPage() {
+		if (maxPage == 0) {
+			maxPage  = Integer.parseInt(findAndReturn("MAX PAGE:"));
+		}
+		return maxPage;
 	}
 
 }
