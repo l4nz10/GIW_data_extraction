@@ -20,27 +20,36 @@ public class Controller {
 		 */
 		int numberOfCrawlers = Runtime.getRuntime().availableProcessors();
 
-		CrawlConfig config = new CrawlConfig();
+		CrawlConfig configAllmusic = new CrawlConfig();
+		CrawlConfig configNovasol = new CrawlConfig();
+		CrawlConfig configMultiplayer = new CrawlConfig();
 
-		config.setCrawlStorageFolder(crawlStorageFolder);
-
+		configAllmusic.setCrawlStorageFolder(crawlStorageFolder);
+		configNovasol.setCrawlStorageFolder(crawlStorageFolder);
+		configMultiplayer.setCrawlStorageFolder(crawlStorageFolder);
 		/*
 		 * Be polite: Make sure that we don't send more than 1 request per
 		 * second (1000 milliseconds between requests).
 		 */
-		config.setPolitenessDelay(ConfigReader.getTimeout());
+		configAllmusic.setPolitenessDelay(ConfigReader.getTimeout());
+		configNovasol.setPolitenessDelay(ConfigReader.getTimeout());
+		configMultiplayer.setPolitenessDelay(ConfigReader.getTimeout());
 
 		/*
 		 * You can set the maximum crawl depth here. The default value is -1 for
 		 * unlimited depth
 		 */
-		config.setMaxDepthOfCrawling(-1);
+		configAllmusic.setMaxDepthOfCrawling(-1);
+		configNovasol.setMaxDepthOfCrawling(-1);
+		configMultiplayer.setMaxDepthOfCrawling(-1);
 
 		/*
 		 * You can set the maximum number of pages to crawl. The default value
 		 * is -1 for unlimited number of pages
 		 */
-		config.setMaxPagesToFetch(-1);
+		configAllmusic.setMaxPagesToFetch(ConfigReader.getMaxPage());
+		configNovasol.setMaxPagesToFetch(ConfigReader.getMaxPage());
+		configMultiplayer.setMaxPagesToFetch(ConfigReader.getMaxPage());
 
 		/*
 		 * This config parameter can be used to set your crawl to be resumable
@@ -49,16 +58,26 @@ public class Controller {
 		 * want to start a fresh crawl, you need to delete the contents of
 		 * rootFolder manually.
 		 */
-		config.setResumableCrawling(false);
+		configAllmusic.setResumableCrawling(false);
+		configNovasol.setResumableCrawling(false);
+		configMultiplayer.setResumableCrawling(false);
 
 		/*
 		 * Instantiate the controller for this crawl.
 		 */
-		PageFetcher pageFetcher = new PageFetcher(config);
+		PageFetcher pageFetcherAllmusic = new PageFetcher(configAllmusic);
 		RobotstxtConfig robotstxtConfig = new RobotstxtConfig();
 		robotstxtConfig.setEnabled(false);
-		RobotstxtServer robotstxtServer = new RobotstxtServer(robotstxtConfig, pageFetcher);
-		CrawlController controller = new CrawlController(config, pageFetcher, robotstxtServer);
+		RobotstxtServer robotstxtServerAllmusic = new RobotstxtServer(robotstxtConfig, pageFetcherAllmusic);
+		CrawlController controllerAllmusic = new CrawlController(configAllmusic, pageFetcherAllmusic, robotstxtServerAllmusic);
+		
+		PageFetcher pageFetcherNovasol = new PageFetcher(configNovasol);
+		RobotstxtServer robotstxtServerNovasol = new RobotstxtServer(robotstxtConfig, pageFetcherNovasol);
+		CrawlController controllerNovasol = new CrawlController(configNovasol, pageFetcherNovasol, robotstxtServerNovasol);
+		
+		PageFetcher pageFetcherMultiplayer = new PageFetcher(configMultiplayer);
+		RobotstxtServer robotstxtServerMultiplayer = new RobotstxtServer(robotstxtConfig, pageFetcherMultiplayer);
+		CrawlController controllerMultiplayer = new CrawlController(configMultiplayer, pageFetcherMultiplayer, robotstxtServerMultiplayer);
 
 		/*
 		 * For each crawl, you need to add some seed urls. These are the first
@@ -66,17 +85,22 @@ public class Controller {
 		 * which are found in these pages
 		 */
 		
-		controller.addSeed("http://www.allmusic.com/genres");
-		controller.addSeed("http://multiplayer.it/articoli/notizie/");
-		controller.addSeed("http://www.novasol.it/r/380?wt.seg_4=NS_IT_CON2_MAP_380&SD=24-05-2014&ED=31-05-2014");
+		controllerAllmusic.addSeed("http://www.allmusic.com/genres");
+		controllerMultiplayer.addSeed("http://multiplayer.it/articoli/notizie/");
+		controllerNovasol.addSeed("http://www.novasol.it/r/380?wt.seg_4=NS_IT_CON2_MAP_380&SD=24-05-2014&ED=31-05-2014");
 		
 
 		/*
 		 * Start the crawl. This is a blocking operation, meaning that your code
 		 * will reach the line after this only when crawling is finished.
 		 */
-		controller.start(FocusedCrawler.class, numberOfCrawlers);
-		System.out.println("Done.");
+		controllerAllmusic.start(FocusedCrawler.class, numberOfCrawlers);
+		System.out.println("Allmusic done.");
+//		controllerNovasol.start(FocusedCrawler.class, numberOfCrawlers);
+//		System.out.println("Novasol done.");
+//		controllerMultiplayer.start(FocusedCrawler.class, numberOfCrawlers);
+//		System.out.println("Multiplayer done.");
+//		System.out.println("Done.");
 	}
 
 }

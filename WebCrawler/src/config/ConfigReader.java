@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class ConfigReader {
 
-	private static final String FILE_NAME = "Z:\\config.txt";
+	private static final String FILE_NAME = "C:\\config.txt";
 	private static BufferedReader reader = null;
 	private static String storageFolderPath = null;
 	private static String dataPath = null;
