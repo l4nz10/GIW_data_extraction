@@ -9,13 +9,16 @@ public class ConfigReader {
 
 	private static final String FILE_NAME = "C:\\config.txt";
 	private static BufferedReader reader = null;
-	private static String storageFolderPath = null;
+	private static String allmusicStorageFolderPath = null;
 	private static String dataPath = null;
 	private static String indexFileName = null;
 	private static String csvFileName = null;
 	private static String novasolFolderPath = null;
 	private static int timeout = 0, maxPage = 0;
 	private static String allmusicFolderPath = null;
+	private static String novasolStorageFolderPath;
+	private static String multiplayerStorageFolderPath;
+	private static String multiplayerFolderPath;
 
 	private static String findAndReturn(String caption) {
 		String line = null;
@@ -40,11 +43,11 @@ public class ConfigReader {
 		return null;
 	}
 
-	public static String getStorageFolderPath() {
-		if (storageFolderPath == null) {
-			storageFolderPath = findAndReturn("CRAWL STORAGE FOLDER PATH:");
+	public static String getAllmusicStorageFolderPath() {
+		if (allmusicStorageFolderPath == null) {
+			allmusicStorageFolderPath = findAndReturn("ALLMUSIC CRAWL STORAGE FOLDER PATH:");
 		}
-		return storageFolderPath;
+		return allmusicStorageFolderPath;
 	}
 
 	public static String getDataPath() {
@@ -83,10 +86,10 @@ public class ConfigReader {
 	}
 	
 	public static String getMultiplayerFolderPath() {
-		if (novasolFolderPath == null) {
-			novasolFolderPath = findAndReturn("MULTIPLAYER FOLDER PATH:");
+		if (multiplayerFolderPath == null) {
+			multiplayerFolderPath = findAndReturn("MULTIPLAYER FOLDER PATH:");
 		}
-		return novasolFolderPath;
+		return multiplayerFolderPath;
 	}
 
 	public static String getAllmusicFolderPath() {
@@ -100,6 +103,20 @@ public class ConfigReader {
 			maxPage  = Integer.parseInt(findAndReturn("MAX PAGE:"));
 		}
 		return maxPage;
+	}
+
+	public static String getNovasolStorageFolderPath() {
+		if (novasolStorageFolderPath == null) {
+			novasolStorageFolderPath = findAndReturn("NOVASOL CRAWL STORAGE FOLDER PATH:");
+		}
+		return novasolStorageFolderPath;
+	}
+
+	public static String getMultiplayerStorageFolderPath() {
+		if (multiplayerStorageFolderPath == null) {
+			multiplayerStorageFolderPath = findAndReturn("MULTIPLAYER CRAWL STORAGE FOLDER PATH:");
+		}
+		return multiplayerStorageFolderPath;
 	}
 
 }

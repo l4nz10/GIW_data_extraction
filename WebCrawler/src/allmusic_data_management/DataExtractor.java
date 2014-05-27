@@ -90,7 +90,6 @@ public class DataExtractor {
 	private String extractInfoList(Document doc) {
 		NodeList nodes = this.compileXPathAndReturn(doc, "//section[@class=\"discography-browser\"]//ul//a/@title");
 		if (nodes != null) {
-			System.out.println("NODES LENGTH: "+nodes.getLength());
 			StringBuilder builder = new StringBuilder();
 			builder.append("[");
 			for (int i = 0; i < nodes.getLength(); i++) {

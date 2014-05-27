@@ -12,7 +12,9 @@ public class Controller {
 	public static void main(String[] args) throws Exception {
 		
 	
-		String crawlStorageFolder = ConfigReader.getStorageFolderPath();	//"C:\\crawl_tmp";
+		String allMusicCrawlStorageFolder = ConfigReader.getAllmusicStorageFolderPath();	//"C:\\crawl_tmp";
+		String novasolCrawlStorageFolder = ConfigReader.getNovasolStorageFolderPath();
+		String multiplayerCrawlStorageFolder = ConfigReader.getMultiplayerStorageFolderPath();
 
 		/*
 		 * numberOfCrawlers shows the number of concurrent threads that should
@@ -24,9 +26,9 @@ public class Controller {
 		CrawlConfig configNovasol = new CrawlConfig();
 		CrawlConfig configMultiplayer = new CrawlConfig();
 
-		configAllmusic.setCrawlStorageFolder(crawlStorageFolder);
-		configNovasol.setCrawlStorageFolder(crawlStorageFolder);
-		configMultiplayer.setCrawlStorageFolder(crawlStorageFolder);
+		configAllmusic.setCrawlStorageFolder(allMusicCrawlStorageFolder);
+		configNovasol.setCrawlStorageFolder(novasolCrawlStorageFolder);
+		configMultiplayer.setCrawlStorageFolder(multiplayerCrawlStorageFolder);
 		/*
 		 * Be polite: Make sure that we don't send more than 1 request per
 		 * second (1000 milliseconds between requests).
@@ -96,11 +98,11 @@ public class Controller {
 		 */
 		controllerAllmusic.start(FocusedCrawler.class, numberOfCrawlers);
 		System.out.println("Allmusic done.");
-//		controllerNovasol.start(FocusedCrawler.class, numberOfCrawlers);
-//		System.out.println("Novasol done.");
-//		controllerMultiplayer.start(FocusedCrawler.class, numberOfCrawlers);
-//		System.out.println("Multiplayer done.");
-//		System.out.println("Done.");
+		controllerNovasol.start(FocusedCrawler.class, numberOfCrawlers);
+		System.out.println("Novasol done.");
+		controllerMultiplayer.start(FocusedCrawler.class, numberOfCrawlers);
+		System.out.println("Multiplayer done.");
+		System.out.println("Done.");
 	}
 
 }
