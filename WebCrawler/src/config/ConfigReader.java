@@ -8,6 +8,7 @@ import java.io.IOException;
 public class ConfigReader {
 
 	private static final String FILE_NAME = "C:\\config.txt";
+	
 	private static BufferedReader reader = null;
 	private static String allmusicStorageFolderPath = null;
 	private static String dataPath = null;
@@ -16,9 +17,11 @@ public class ConfigReader {
 	private static String novasolFolderPath = null;
 	private static int timeout = 0, maxPage = 0;
 	private static String allmusicFolderPath = null;
+	private static String espnFolderPath = null;
 	private static String novasolStorageFolderPath;
 	private static String multiplayerStorageFolderPath;
 	private static String multiplayerFolderPath;
+	private static String espnStorageFolderPath;
 
 	private static String findAndReturn(String caption) {
 		String line = null;
@@ -117,6 +120,20 @@ public class ConfigReader {
 			multiplayerStorageFolderPath = findAndReturn("MULTIPLAYER CRAWL STORAGE FOLDER PATH:");
 		}
 		return multiplayerStorageFolderPath;
+	}
+
+	public static String getEspnFolderPath() {
+		if (espnFolderPath == null) {
+			espnFolderPath  = findAndReturn("ESPN FOLDER PATH:");
+		}
+		return espnFolderPath;
+	}
+
+	public static String getEspnStorageFolderPath() {
+		if (espnStorageFolderPath == null) {
+			espnStorageFolderPath = findAndReturn("ESPN CRAWL STORAGE FOLDER PATH:");
+		}
+		return espnStorageFolderPath;
 	}
 
 }

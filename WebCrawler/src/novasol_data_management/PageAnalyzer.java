@@ -1,8 +1,15 @@
 package novasol_data_management;
 
+import config.ConfigReader;
 import edu.uci.ics.crawler4j.crawler.Page;
+import fileWriter.HTMLFileWriter;
 
 public class PageAnalyzer {
+	
+	private static final String PATH = ConfigReader.getDataPath();
+	private static final String SITE_PATH = ConfigReader.getNovasolFolderPath();
+	private static final String STORAGE_PATH = PATH + SITE_PATH;
+	
 	
 	private static final String PREFIX_1 = "http://www.novasol.it/r/",
 								PREFIX_2 = "http://www.novasol.it/p/";
@@ -18,7 +25,7 @@ public class PageAnalyzer {
 	
 	private static void process(Page page) {
 		String docID = IdManager.getID();
-		HTMLFileWriter.writeToHTMLFile(docID, page);
+		new HTMLFileWriter(STORAGE_PATH).writeToHTMLFile(docID, page);
 		new DataExtractor(docID, page).extractData();
 	}
 	

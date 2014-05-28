@@ -1,4 +1,4 @@
-package data_management;
+package espn_data_management;
 
 public class IdManager {
 	
@@ -10,7 +10,9 @@ public class IdManager {
 		docID++;
 		return returnValue;
 	}
-	
+	public static synchronized Integer getId(){
+		return docID;
+	}
 	public static String getID() {
 		Integer intID = getIDAndIncrement();
 		String stringID = ""+intID;

@@ -22,29 +22,24 @@ import org.w3c.dom.NodeList;
 import com.csvreader.CsvWriter;
 
 import config.ConfigReader;
-import data_management.CSVFormatter;
+import csv_formatter.CsvFormatter;
 import edu.uci.ics.crawler4j.crawler.Page;
 
 public class DataExtractor {
 
-	private final String PATH = ConfigReader.getDataPath(); // "C:\\GIW_Data_Extraction\\page_list\\";
+	private final String PATH = ConfigReader.getDataPath();
 	private final String SITE_PATH = ConfigReader.getAllmusicFolderPath();
-	private final String FILE_NAME = ConfigReader.getCSVFileName(); // "data.csv";
-
-	private String docID;
-	private Page page;
+	private final String CSV_FILE = ConfigReader.getCSVFileName();
 	private CsvWriter csvWriter;
 	private XPath xpath;
 
-	public DataExtractor(String docID, Page page) {
-		this.docID = docID;
-		this.page = page;
+	public DataExtractor() {
 		this.xpath = XPathFactory.newInstance().newXPath();		
 	}
 
-	public void extractData() {
+	public void extractData(String docID, Page page) {
 
-		String outputFile = PATH + SITE_PATH + FILE_NAME;
+		String outputFile = PATH + SITE_PATH + CSV_FILE;
 
 		try {
 			boolean alreadyExists = new File(outputFile).exists();
@@ -54,9 +49,9 @@ public class DataExtractor {
 			if (!alreadyExists) {
 				csvWriter.write("ID");
 				csvWriter.write("TITLE");
-				csvWriter.write("DESCRIPTION");
+				csvWriter.write("ARTIST");
 				csvWriter.write("IMAGE");
-				csvWriter.write("INFO");
+				csvWriter.write("TRACKS");
 				csvWriter.endRecord();
 				csvWriter.flush();
 			}
@@ -66,10 +61,10 @@ public class DataExtractor {
 			Document doc = new DomSerializer(new CleanerProperties()).createDOM(root);
 			
 			csvWriter.write(docID);
-			csvWriter.write(CSVFormatter.format(this.extractTitle(doc)));
-			csvWriter.write(CSVFormatter.format(this.extractDescription(doc)));
-			csvWriter.write(CSVFormatter.format(this.extractImage(doc)));
-			csvWriter.write(CSVFormatter.format(this.extractInfoList(doc)));
+			csvWriter.write(this.extractTitle(doc));
+			csvWriter.write(this.extractArtist(doc));
+			csvWriter.write(this.extractImage(doc));
+			csvWriter.write(this.extractTracks(doc));
 			csvWriter.endRecord();
 			csvWriter.close();
 			
@@ -81,38 +76,34 @@ public class DataExtractor {
 
 	}
 
-	private String extractDescription(Document doc) {
-		NodeList nodes = this.compileXPathAndReturn(doc, "//meta[@property=\"og:description\"]/@content");
+	private String extractArtist(Document doc) {
+		NodeList nodes = this.compileXPathAndReturn(doc, "//h3[@class=\"album-artist\"]");
 		String description = nodes.item(0).getTextContent().trim();
-		return description;
+		return CsvFormatter.formatString(description);
 	}
 
-	private String extractInfoList(Document doc) {
-		NodeList nodes = this.compileXPathAndReturn(doc, "//section[@class=\"discography-browser\"]//ul//a/@title");
+	private String extractTracks(Document doc) {
+		NodeList nodes = this.compileXPathAndReturn(doc, "//section[@class=\"track-listing\"]//td[@class=\"title-composer\"]/div[@class=\"title\"]");		
 		if (nodes != null) {
-			StringBuilder builder = new StringBuilder();
-			builder.append("[");
+			String[] stringArray = new String[nodes.getLength()];
 			for (int i = 0; i < nodes.getLength(); i++) {
-				String listItemText = nodes.item(i).getTextContent().trim();
-				builder.append(listItemText)
-					   .append(",");
+				stringArray[i] = nodes.item(i).getTextContent().trim();				
 			}
-			builder.deleteCharAt(builder.length()-1).append("]");
-			return builder.toString();
+			return CsvFormatter.formatStringList(stringArray);
 		}
 		return null;
 	}
 
 	private String extractImage(Document doc) {
-		NodeList nodes = this.compileXPathAndReturn(doc, "//meta[@property=\"og:image\"]/@content");
+		NodeList nodes = this.compileXPathAndReturn(doc, "//div[@class=\"album-cover\"]//img/@src");
 		String imgURL = nodes.item(0).getTextContent().trim();
 		return imgURL;
 	}
 
 	private String extractTitle(Document doc) {
-		NodeList nodes = this.compileXPathAndReturn(doc, "//meta[@property=\"og:title\"]/@content");
+		NodeList nodes = this.compileXPathAndReturn(doc, "//h2[@class=\"album-title\"]");
 		String title = nodes.item(0).getTextContent().trim();
-		return title;
+		return CsvFormatter.formatString(title);
 	}
 	
 	private NodeList compileXPathAndReturn(Document doc, String query) {
@@ -123,5 +114,10 @@ public class DataExtractor {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	public void extractData(File new_file) {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -1,4 +1,4 @@
-package novasol_data_management;
+package espn_data_management;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -27,8 +27,8 @@ import edu.uci.ics.crawler4j.crawler.Page;
 
 public class DataExtractor {
 
-	private final String PATH = ConfigReader.getDataPath(); 
-	private final String SITE_PATH = ConfigReader.getNovasolFolderPath();
+	private final String PATH = ConfigReader.getDataPath();
+	private final String SITE_PATH = ConfigReader.getEspnFolderPath();
 	private final String FILE_NAME = ConfigReader.getCSVFileName();
 
 	private String docID;
@@ -54,7 +54,6 @@ public class DataExtractor {
 			if (!alreadyExists) {
 				csvWriter.write("ID");
 				csvWriter.write("TITLE");
-				csvWriter.write("DESCRIPTION");
 				csvWriter.write("IMAGE");
 				csvWriter.write("INFO");
 				csvWriter.endRecord();
@@ -67,7 +66,6 @@ public class DataExtractor {
 			
 			csvWriter.write(docID);
 			csvWriter.write(this.extractTitle(doc));
-			csvWriter.write(this.extractDescription(doc));
 			csvWriter.write(this.extractImage(doc));
 			csvWriter.write(this.extractInfoList(doc));
 			csvWriter.endRecord();
@@ -81,49 +79,32 @@ public class DataExtractor {
 
 	}
 
-	private String extractDescription(Document doc) {
-		NodeList nodes = this.compileXPathAndReturn(doc, "//meta[@name=\"description\"]/@content");
-		String description = nodes.item(0).getTextContent().trim();
-		return CsvFormatter.formatString(description);
-	}
-
 	private String extractInfoList(Document doc) {
-		NodeList nodes = this.compileXPathAndReturn(doc, "//div[div[text()=\"Informazioni sull'alloggio\"]]//li");
+		NodeList nodes = this.compileXPathAndReturn(doc, "//ul[@class=\"general-info\"]/li");
 		if (nodes != null) {
 			String[] stringArray = new String[nodes.getLength()];
 			for (int i = 0; i < nodes.getLength(); i++) {
-				stringArray[i] = nodes.item(i).getTextContent().trim();
+				stringArray[i] = nodes.item(i).getTextContent().trim();				
 			}
 			return CsvFormatter.formatStringList(stringArray);
 		}
 		return null;
 	}
+
 	private String extractImage(Document doc) {
-		NodeList nodes = this.compileXPathAndReturn(doc, "//meta[@property=\"og:image\"]/@content");
-		String imgURL = nodes.item(0).getTextContent().trim();
-		return imgURL;
+		NodeList nodes = this.compileXPathAndReturn(doc, "//div[@class=\"main-headshot\"]/img/@src");
+		if (nodes != null) {
+			String imgURL = nodes.item(0).getTextContent().trim();
+			return imgURL;
+		}
+		return null;
 	}
 
 	private String extractTitle(Document doc) {
-		NodeList nodes = this.compileXPathAndReturn(doc, "//meta[@name=\"title\"]/@content");
+		NodeList nodes = this.compileXPathAndReturn(doc, "//meta[@property=\"og:title\"]/@content");
 		String title = nodes.item(0).getTextContent().trim();
 		return CsvFormatter.formatString(title);
 	}
-//
-//	private String extractImage(Document doc) {
-//		NodeList nodes = this.compileXPathAndReturn(doc, "//*[@id=\"largeHouseImage\"]");
-//		NamedNodeMap attributes = nodes.item(0).getAttributes();
-//		String imgUrl = attributes.getNamedItem("src").getTextContent();
-//		String subDomain = page.getWebURL().getSubDomain();
-//		String domain = page.getWebURL().getDomain();
-//		return subDomain + "." + domain + imgUrl;
-//	}
-//
-//	private String extractTitle(Document doc) {
-//		NodeList nodes = this.compileXPathAndReturn(doc, "//h1[@class=\"l-header\"]");
-//		String title = nodes.item(0).getTextContent().trim();
-//		return title;
-//	}
 	
 	private NodeList compileXPathAndReturn(Document doc, String query) {
 		try {

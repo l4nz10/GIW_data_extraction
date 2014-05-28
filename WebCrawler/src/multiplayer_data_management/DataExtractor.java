@@ -22,7 +22,7 @@ import org.w3c.dom.NodeList;
 import com.csvreader.CsvWriter;
 
 import config.ConfigReader;
-import data_management.CSVFormatter;
+import csv_formatter.CsvFormatter;
 import edu.uci.ics.crawler4j.crawler.Page;
 
 public class DataExtractor {
@@ -66,10 +66,10 @@ public class DataExtractor {
 			Document doc = new DomSerializer(new CleanerProperties()).createDOM(root);
 			
 			csvWriter.write(docID);
-			csvWriter.write(CSVFormatter.format(this.extractTitle(doc)));
-			csvWriter.write(CSVFormatter.format(this.extractDescription(doc)));
-			csvWriter.write(CSVFormatter.format(this.extractImage(doc)));
-			csvWriter.write(CSVFormatter.format(this.extractInfoList(doc)));
+			csvWriter.write(this.extractTitle(doc));
+			csvWriter.write(this.extractDescription(doc));
+			csvWriter.write(this.extractImage(doc));
+			csvWriter.write(this.extractInfoList(doc));
 			csvWriter.endRecord();
 			csvWriter.close();
 			
@@ -84,21 +84,17 @@ public class DataExtractor {
 	private String extractDescription(Document doc) {
 		NodeList nodes = this.compileXPathAndReturn(doc, "//meta[@property=\"og:description\"]/@content");
 		String description = nodes.item(0).getTextContent().trim();
-		return description;
+		return CsvFormatter.formatString(description);
 	}
 
 	private String extractInfoList(Document doc) {
 		NodeList nodes = this.compileXPathAndReturn(doc, "//ul[@class=\"sidebar_list\"]/li");
 		if (nodes != null) {
-			StringBuilder builder = new StringBuilder();
-			builder.append("[");
+			String [] stringArray = new String[nodes.getLength()];
 			for (int i = 0; i < nodes.getLength(); i++) {
-				String listItemText = nodes.item(i).getTextContent().trim();
-				builder.append(listItemText)
-					   .append(",");
+				stringArray[i] = nodes.item(i).getTextContent().trim();
 			}
-			builder.deleteCharAt(builder.length()-1).append("]");
-			return builder.toString();
+			return CsvFormatter.formatStringList(stringArray);
 		}
 		return null;
 	}
@@ -112,7 +108,7 @@ public class DataExtractor {
 	private String extractTitle(Document doc) {
 		NodeList nodes = this.compileXPathAndReturn(doc, "//meta[@property=\"og:title\"]/@content");
 		String title = nodes.item(0).getTextContent().trim();
-		return title;
+		return CsvFormatter.formatString(title);
 	}
 	
 	private NodeList compileXPathAndReturn(Document doc, String query) {

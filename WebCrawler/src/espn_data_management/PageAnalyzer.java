@@ -1,4 +1,4 @@
-package multiplayer_data_management;
+package espn_data_management;
 
 
 import config.ConfigReader;
@@ -8,15 +8,18 @@ import fileWriter.HTMLFileWriter;
 public class PageAnalyzer {
 	
 	private static final String PATH = ConfigReader.getDataPath();
-	private static final String SITE_PATH = ConfigReader.getMultiplayerFolderPath();
+	private static final String SITE_PATH = ConfigReader.getEspnFolderPath();
 	private static final String STORAGE_PATH = PATH + SITE_PATH;
-		
-	private static final String PREFIX_1 = "http://multiplayer.it/articoli/notizie/",
-								PREFIX_2 = "http://multiplayer.it/notizie/";
-	private static final String FILTER_PATH = "/notizie/";
+
+	private static final String PREFIX_1 = "http://espn.go.com/nba/player/",
+								PREFIX_2 = "http://espn.go.com/nba/team/",
+								PREFIX_3 = "http://espn.go.com/nba/players";
+	private static final String FILTER_PATH = "/nba/player/_/id/";
 
 	public static boolean shouldVisit(String href) {
-		return href.startsWith(PREFIX_1) || href.startsWith(PREFIX_2);
+		return href.startsWith(PREFIX_1) ||
+			   href.startsWith(PREFIX_2) ||
+			   href.startsWith(PREFIX_3);
 	}
 
 	public static boolean mustProcess(Page page) {
