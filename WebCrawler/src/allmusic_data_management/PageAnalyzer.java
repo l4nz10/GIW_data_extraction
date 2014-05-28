@@ -16,9 +16,7 @@ public class PageAnalyzer {
 	private static final String FILTER_PATH = "/album/";
 	
 	public static boolean shouldVisit(String href) {
-		return href.startsWith(PREFIX_1) ||
-			   href.startsWith(PREFIX_2) ||
-			   href.startsWith(PREFIX_3);
+		return href.startsWith(PREFIX_1) || href.startsWith(PREFIX_2) || href.startsWith(PREFIX_3);
 	}
 		
 	public static boolean mustProcess(Page page) {
@@ -28,7 +26,7 @@ public class PageAnalyzer {
 	private static void process(Page page) {
 		String docID = IdManager.getID();
 		new HTMLFileWriter(STORAGE_PATH).writeToHTMLFile(docID, page);
-		new DataExtractor().extractData(docID, page);
+		new DataExtractor(STORAGE_PATH).extractDataFromPage(docID, page);
 	}
 	
 	public static void checkAndProcess(Page page) {

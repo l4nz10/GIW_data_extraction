@@ -21,30 +21,57 @@ import org.w3c.dom.NodeList;
 
 import com.csvreader.CsvWriter;
 
-import config.ConfigReader;
 import csv_formatter.CsvFormatter;
 import edu.uci.ics.crawler4j.crawler.Page;
 
 public class DataExtractor {
 
-	private final String PATH = ConfigReader.getDataPath(); // "C:\\GIW_Data_Extraction\\page_list\\";
-	private final String SITE_PATH = ConfigReader.getMultiplayerFolderPath();
-	private final String FILE_NAME = ConfigReader.getCSVFileName(); // "data.csv";
+	private final String FILE_NAME = "data.csv";
 
-	private String docID;
-	private Page page;
 	private CsvWriter csvWriter;
 	private XPath xpath;
+	private String storagePath;
 
-	public DataExtractor(String docID, Page page) {
-		this.docID = docID;
-		this.page = page;
+	public DataExtractor(String storagePath) {
+		this.storagePath = storagePath;
 		this.xpath = XPathFactory.newInstance().newXPath();		
 	}
+	
+	public void extractDataFromFile(File file) {
+		String fileName = file.getName();
+		String docID = fileName.substring(0, fileName.indexOf('.'));
+		try {
+			
+			HtmlCleaner cleaner = new HtmlCleaner();
+			TagNode root = cleaner.clean(file);
+			Document doc = new DomSerializer(new CleanerProperties()).createDOM(root);
+			this.extractData(docID, doc);
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		}		
+	}
+	
+	public void extractDataFromPage(String docID, Page page) {
+		try {
+			
+			HtmlCleaner cleaner = new HtmlCleaner();
+			TagNode root = cleaner.clean(new ByteArrayInputStream(page.getContentData()));
+			Document doc = new DomSerializer(new CleanerProperties()).createDOM(root);
+			this.extractData(docID, doc);
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		}
+	}
 
-	public void extractData() {
+	public void extractData(String docID, Document doc) {
 
-		String outputFile = PATH + SITE_PATH + FILE_NAME;
+		String outputFile = this.storagePath + FILE_NAME;
 
 		try {
 			boolean alreadyExists = new File(outputFile).exists();
@@ -61,10 +88,6 @@ public class DataExtractor {
 				csvWriter.flush();
 			}
 
-			HtmlCleaner cleaner = new HtmlCleaner();
-			TagNode root = cleaner.clean(new ByteArrayInputStream(page.getContentData()));
-			Document doc = new DomSerializer(new CleanerProperties()).createDOM(root);
-			
 			csvWriter.write(docID);
 			csvWriter.write(this.extractTitle(doc));
 			csvWriter.write(this.extractDescription(doc));
@@ -75,10 +98,7 @@ public class DataExtractor {
 			
 		} catch (IOException e) {
 			e.printStackTrace();
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
 		}
-
 	}
 
 	private String extractDescription(Document doc) {

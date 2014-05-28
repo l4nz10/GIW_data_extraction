@@ -26,7 +26,7 @@ public class PageAnalyzer {
 	private static void process(Page page) {
 		String docID = IdManager.getID();
 		new HTMLFileWriter(STORAGE_PATH).writeToHTMLFile(docID, page);
-		new DataExtractor(docID, page).extractData();
+		new DataExtractor(STORAGE_PATH).extractDataFromPage(docID, page);
 	}
 
 	public static void checkAndProcess(Page page) {

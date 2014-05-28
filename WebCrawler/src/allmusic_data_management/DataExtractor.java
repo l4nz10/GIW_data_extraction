@@ -21,25 +21,57 @@ import org.w3c.dom.NodeList;
 
 import com.csvreader.CsvWriter;
 
-import config.ConfigReader;
 import csv_formatter.CsvFormatter;
 import edu.uci.ics.crawler4j.crawler.Page;
 
 public class DataExtractor {
 
-	private final String PATH = ConfigReader.getDataPath();
-	private final String SITE_PATH = ConfigReader.getAllmusicFolderPath();
-	private final String CSV_FILE = ConfigReader.getCSVFileName();
+	private final String CSV_FILE = "data.csv";
 	private CsvWriter csvWriter;
 	private XPath xpath;
+	private String storagePath;
+	
 
-	public DataExtractor() {
+	public DataExtractor(String storagePath) {
+		this.storagePath = storagePath;
 		this.xpath = XPathFactory.newInstance().newXPath();		
 	}
+	
+	public void extractDataFromFile(File file) {
+		String fileName = file.getName();
+		String docID = fileName.substring(0, fileName.indexOf('.'));
+		try {
+			
+			HtmlCleaner cleaner = new HtmlCleaner();
+			TagNode root = cleaner.clean(file);
+			Document doc = new DomSerializer(new CleanerProperties()).createDOM(root);
+			this.extractData(docID, doc);
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		}		
+	}
+	
+	public void extractDataFromPage(String docID, Page page) {
+		try {
+			
+			HtmlCleaner cleaner = new HtmlCleaner();
+			TagNode root = cleaner.clean(new ByteArrayInputStream(page.getContentData()));
+			Document doc = new DomSerializer(new CleanerProperties()).createDOM(root);
+			this.extractData(docID, doc);
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void extractData(String docID, Document doc) {
 
-	public void extractData(String docID, Page page) {
-
-		String outputFile = PATH + SITE_PATH + CSV_FILE;
+		String outputFile = this.storagePath + CSV_FILE;
 
 		try {
 			boolean alreadyExists = new File(outputFile).exists();
@@ -56,10 +88,6 @@ public class DataExtractor {
 				csvWriter.flush();
 			}
 
-			HtmlCleaner cleaner = new HtmlCleaner();
-			TagNode root = cleaner.clean(new ByteArrayInputStream(page.getContentData()));
-			Document doc = new DomSerializer(new CleanerProperties()).createDOM(root);
-			
 			csvWriter.write(docID);
 			csvWriter.write(this.extractTitle(doc));
 			csvWriter.write(this.extractArtist(doc));
@@ -69,8 +97,6 @@ public class DataExtractor {
 			csvWriter.close();
 			
 		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ParserConfigurationException e) {
 			e.printStackTrace();
 		}
 
@@ -114,10 +140,5 @@ public class DataExtractor {
 			e.printStackTrace();
 		}
 		return null;
-	}
-
-	public void extractData(File new_file) {
-		// TODO Auto-generated method stub
-		
 	}
 }
