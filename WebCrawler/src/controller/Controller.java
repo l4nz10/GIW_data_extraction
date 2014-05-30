@@ -1,5 +1,8 @@
 package controller;
 
+import config.ConfigReader;
+import crawler.NovasolCrawler;
+import crawler.MultiplayerCrawler;
 import crawler.AllmusicCrawler;
 import crawler.EspnCrawler;
 import edu.uci.ics.crawler4j.crawler.CrawlConfig;
@@ -16,7 +19,7 @@ public class Controller {
 		 * numberOfCrawlers shows the number of concurrent threads that should
 		 * be initiated for crawling.
 		 */
-		int numberOfCrawlers = 1;
+		int numberOfCrawlers = 2;
 
 		// configuring crawler for novasol.it
 		CrawlConfig config = new CrawlConfig();
@@ -25,8 +28,10 @@ public class Controller {
 		config.setMaxDepthOfCrawling(-1);
 		config.setMaxPagesToFetch(-1);
 		config.setResumableCrawling(false);
+		
+		String crawlRootFolder = ConfigReader.getCrawlFolderPath();
 
-		config.setCrawlStorageFolder("C:\\crawl_tmp\\novasol");
+		config.setCrawlStorageFolder(crawlRootFolder + ConfigReader.getNovasolFolderPath());
 
 		PageFetcher pageFetcher = new PageFetcher(config);
 		RobotstxtConfig robotstxtConfig = new RobotstxtConfig();
@@ -36,7 +41,7 @@ public class Controller {
 		novaController.addSeed("http://www.novasol.it/r/380?wt.seg_4=NS_IT_CON2_MAP_380&SD=24-05-2014&ED=31-05-2014");
 
 		// configuring crawler for multiplayer.it
-		config.setCrawlStorageFolder("C:\\crawl_tmp\\multiplayer");
+		config.setCrawlStorageFolder(crawlRootFolder + ConfigReader.getMultiplayerFolderPath());
 
 		pageFetcher = new PageFetcher(config);
 		robotstxtConfig = new RobotstxtConfig();
@@ -46,7 +51,7 @@ public class Controller {
 		multipController.addSeed("http://multiplayer.it/articoli/notizie/");
 
 		// configuring crawler for allmusic.com
-		config.setCrawlStorageFolder("C:\\crawl_tmp\\allmusic");
+		config.setCrawlStorageFolder(crawlRootFolder + ConfigReader.getAllmusicFolderPath());
 
 		pageFetcher = new PageFetcher(config);
 		robotstxtConfig = new RobotstxtConfig();
@@ -57,7 +62,7 @@ public class Controller {
 		allmusicController.addSeed("http://www.allmusic.com/genres");
 
 		// configuring crawler for allmusic.com
-		config.setCrawlStorageFolder("C:\\crawl_tmp\\espn");
+		config.setCrawlStorageFolder(crawlRootFolder + ConfigReader.getEspnFolderPath());
 
 		pageFetcher = new PageFetcher(config);
 		robotstxtConfig = new RobotstxtConfig();
@@ -72,7 +77,7 @@ public class Controller {
 		 */
 //		novaController.startNonBlocking(NovasolCrawler.class, numberOfCrawlers);
 //		multipController.startNonBlocking(MultiplayerCrawler.class, numberOfCrawlers);
-		allmusicController.startNonBlocking(AllmusicCrawler.class, numberOfCrawlers);
+//		allmusicController.startNonBlocking(AllmusicCrawler.class, numberOfCrawlers);
 		espnController.startNonBlocking(EspnCrawler.class, numberOfCrawlers);
 		
 		System.out.println("Crawling has begun. Press any key to stop the process.");
@@ -81,17 +86,16 @@ public class Controller {
 		
 //		novaController.shutdown();
 //		multipController.shutdown();
-		allmusicController.shutdown();
+//		allmusicController.shutdown();
 		espnController.shutdown();
 		
 		System.out.println("Shutting down. Waiting crawlers to finish...");
 		
 //		novaController.waitUntilFinish();
 //		multipController.waitUntilFinish();
-		allmusicController.waitUntilFinish();
+//		allmusicController.waitUntilFinish();
 		espnController.waitUntilFinish();
 		
 		System.out.println("Shutdown complete.");
 	}
-
 }

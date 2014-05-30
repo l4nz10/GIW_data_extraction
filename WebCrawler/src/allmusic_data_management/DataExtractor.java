@@ -103,7 +103,7 @@ public class DataExtractor {
 	}
 
 	private String extractArtist(Document doc) {
-		NodeList nodes = this.compileXPathAndReturn(doc, "//h3[@class=\"album-artist\"]");
+		NodeList nodes = this.compileXPathAndReturn(doc, "//h3[@class=\"album-artist\" or @class=\"release-artist\"]");
 		String description = nodes.item(0).getTextContent().trim();
 		return CsvFormatter.formatString(description);
 	}
@@ -121,13 +121,13 @@ public class DataExtractor {
 	}
 
 	private String extractImage(Document doc) {
-		NodeList nodes = this.compileXPathAndReturn(doc, "//div[@class=\"album-cover\"]//img/@src");
+		NodeList nodes = this.compileXPathAndReturn(doc, "//div[@class=\"album-cover\" or @class=\"release-cover\"]//img/@src");
 		String imgURL = nodes.item(0).getTextContent().trim();
 		return imgURL;
 	}
 
 	private String extractTitle(Document doc) {
-		NodeList nodes = this.compileXPathAndReturn(doc, "//h2[@class=\"album-title\"]");
+		NodeList nodes = this.compileXPathAndReturn(doc, "//h2[@class=\"album-title\" or @class=\"release-title\"]");
 		String title = nodes.item(0).getTextContent().trim();
 		return CsvFormatter.formatString(title);
 	}

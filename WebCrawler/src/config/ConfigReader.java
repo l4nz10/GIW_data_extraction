@@ -15,13 +15,11 @@ public class ConfigReader {
 	private static String indexFileName = null;
 	private static String csvFileName = null;
 	private static String novasolFolderPath = null;
-	private static int timeout = 0, maxPage = 0;
 	private static String allmusicFolderPath = null;
 	private static String espnFolderPath = null;
-	private static String novasolStorageFolderPath;
-	private static String multiplayerStorageFolderPath;
 	private static String multiplayerFolderPath;
-	private static String espnStorageFolderPath;
+	private static int timeout = 0, maxPage = 0;
+	private static String crawlFolderPath = null;
 
 	private static String findAndReturn(String caption) {
 		String line = null;
@@ -101,39 +99,25 @@ public class ConfigReader {
 		}
 		return allmusicFolderPath;
 	}
-	public static int getMaxPage() {
-		if (maxPage == 0) {
-			maxPage  = Integer.parseInt(findAndReturn("MAX PAGE:"));
-		}
-		return maxPage;
-	}
-
-	public static String getNovasolStorageFolderPath() {
-		if (novasolStorageFolderPath == null) {
-			novasolStorageFolderPath = findAndReturn("NOVASOL CRAWL STORAGE FOLDER PATH:");
-		}
-		return novasolStorageFolderPath;
-	}
-
-	public static String getMultiplayerStorageFolderPath() {
-		if (multiplayerStorageFolderPath == null) {
-			multiplayerStorageFolderPath = findAndReturn("MULTIPLAYER CRAWL STORAGE FOLDER PATH:");
-		}
-		return multiplayerStorageFolderPath;
-	}
-
+	
 	public static String getEspnFolderPath() {
 		if (espnFolderPath == null) {
 			espnFolderPath  = findAndReturn("ESPN FOLDER PATH:");
 		}
 		return espnFolderPath;
 	}
-
-	public static String getEspnStorageFolderPath() {
-		if (espnStorageFolderPath == null) {
-			espnStorageFolderPath = findAndReturn("ESPN CRAWL STORAGE FOLDER PATH:");
+	
+	public static int getMaxPage() {
+		if (maxPage == 0) {
+			maxPage  = Integer.parseInt(findAndReturn("MAX PAGE:"));
 		}
-		return espnStorageFolderPath;
+		return maxPage;
 	}
-
+	
+	public static String getCrawlFolderPath() {
+		if (crawlFolderPath == null) {
+			crawlFolderPath  = findAndReturn("CRAWL STORAGE FOLDER PATH:");
+		}
+		return crawlFolderPath;
+	}
 }

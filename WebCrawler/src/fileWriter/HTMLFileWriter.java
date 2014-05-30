@@ -14,7 +14,7 @@ import edu.uci.ics.crawler4j.crawler.Page;
 
 public class HTMLFileWriter {
 	
-	private static final String INDEX_NAME = ConfigReader.getIndexFileName();
+	private final String INDEX_NAME = ConfigReader.getIndexFileName();
 	
 	private String storagePath;
 	
@@ -33,9 +33,10 @@ public class HTMLFileWriter {
 		url += (domain + path);
 		
 		try {
+			File file = new File(storagePath + docID + ".html");
 			InputStream inStr = new ByteArrayInputStream(page.getContentData());
 			BufferedInputStream buffInStr = new BufferedInputStream(inStr);
-			FileOutputStream fileOutStr = new FileOutputStream(storagePath + docID + ".html");
+			FileOutputStream fileOutStr = new FileOutputStream(file);
 			int c;
 			while ((c = buffInStr.read()) != -1) {
 				fileOutStr.write(c);
@@ -47,7 +48,7 @@ public class HTMLFileWriter {
 			e.printStackTrace();
 		}
 		
-		writeOnIndex(docID, url);
+		this.writeOnIndex(docID, url);
 	}
 	
 	private void writeOnIndex(String docID, String url) {

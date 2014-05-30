@@ -39,7 +39,7 @@ public class DataExtractor {
 	
 	public void extractDataFromFile(File file) {
 		String fileName = file.getName();
-		String docID = fileName.substring(0, fileName.indexOf('.'));
+		String docID = fileName.substring(0, fileName.indexOf(".html"));
 		try {
 			
 			HtmlCleaner cleaner = new HtmlCleaner();
@@ -70,9 +70,8 @@ public class DataExtractor {
 	}
 	
 	public void extractData(String docID, Document doc) {
-
+		
 		String outputFile = storagePath + CSV_FILE;
-
 		try {
 			boolean alreadyExists = new File(outputFile).exists();
 
