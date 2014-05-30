@@ -2,14 +2,14 @@ package file_data_extraction;
 
 import java.io.File;
 
-import multiplayer_data_management.DataExtractor;
+import novasol_data_management.DataExtractor;
 
-public class MultiplayerFDE {
+public class NovasolFDE {
 	
 	public static void readDir(File file) {
 		if (file.canRead()) {
 			if (file.isDirectory()) {
-				DataExtractor extractor = new DataExtractor("C:\\data\\multiplayer\\");
+				DataExtractor extractor = new DataExtractor("C:\\data\\novasol\\");
 				for (String fileName : file.list())
 					if (fileName.endsWith(".html")) {
 						System.out.println("Processing " + fileName);
@@ -20,7 +20,7 @@ public class MultiplayerFDE {
 	}
 	
 	public static void main(String[] args) {
-		readDir(new File("D:\\GIW_Data_Extraction\\multiplayer"));
+		readDir(new File("D:\\GIW_Data_Extraction\\novasol"));
 	}
 	
 }

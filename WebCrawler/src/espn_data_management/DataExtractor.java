@@ -108,12 +108,14 @@ public class DataExtractor {
 	
 	private String extractGeneralInfo(Document doc, int index) {
 		NodeList nodes = this.compileXPathAndReturn(doc, "//ul[@class=\"general-info\"]/li");
-		return nodes.item(index).getTextContent().trim();
+		if (nodes.item(index) != null) 
+			return nodes.item(index).getTextContent().trim();
+		return null;
 	}
 
 	private String extractInfoList(Document doc) {
 		NodeList nodes = this.compileXPathAndReturn(doc, "//ul[starts-with(@class, \"player-metadata\")]/li");
-		if (nodes != null) {
+		if (nodes.getLength() != 0) {
 			String[] stringArray = new String[nodes.getLength()];
 			for (int i = 0; i < nodes.getLength(); i++) {
 				stringArray[i] = nodes.item(i).getTextContent().trim();				
@@ -125,7 +127,7 @@ public class DataExtractor {
 
 	private String extractImage(Document doc) {
 		NodeList nodes = this.compileXPathAndReturn(doc, "//div[starts-with(@class, \"main-headshot\")]/img/@src");
-		if (nodes != null) {
+		if (nodes.getLength() != 0) {
 			String imgURL = nodes.item(0).getTextContent().trim();
 			return imgURL;
 		}

@@ -24,10 +24,10 @@ public class Controller {
 		// configuring crawler for novasol.it
 		CrawlConfig config = new CrawlConfig();
 
-		config.setPolitenessDelay(1000);
+		config.setPolitenessDelay(500);
 		config.setMaxDepthOfCrawling(-1);
 		config.setMaxPagesToFetch(-1);
-		config.setResumableCrawling(false);
+		config.setResumableCrawling(true);
 		
 		String crawlRootFolder = ConfigReader.getCrawlFolderPath();
 
