@@ -15,7 +15,12 @@ public class MultiplayerFDE {
 						System.out.println("Processing " + fileName);
 						extractor.extractDataFromFile(new File(file, fileName));
 					}
-			}
+				System.out.println("Extraction of directory " + file.getName() + " complete.");
+			} else {
+				System.err.println("ERROR: File " + file.getName() + " is not a directory.");
+			} 
+		} else {
+			System.err.println("ERROR: File " + file.getName() + " cannot be read.");
 		}
 	}
 	

@@ -2,7 +2,7 @@ package allmusic_data_management;
 
 import config.ConfigReader;
 import edu.uci.ics.crawler4j.crawler.Page;
-import fileWriter.HTMLFileWriter;
+import file_writer.HTMLFileWriter;
 
 public class PageAnalyzer {
 	
@@ -10,17 +10,15 @@ public class PageAnalyzer {
 	private static final String SITE_PATH = ConfigReader.getAllmusicFolderPath();
 	private static final String STORAGE_PATH = PATH + SITE_PATH;
 	
-	private static final String PREFIX_1 = "http://www.allmusic.com/album/",
-								PREFIX_2 = "http://www.allmusic.com/genre/",
-								PREFIX_3 = "http://www.allmusic.com/artist/";
-	private static final String FILTER_PATH = "/album/";
+	private static final String REGEX_VISIT = "^http://www\\.allmusic\\.com/(album|genre|artist)/.*$";
+	private static final String REGEX_FILTER = "^/album/.*$";
 	
 	public static boolean shouldVisit(String href) {
-		return href.startsWith(PREFIX_1) || href.startsWith(PREFIX_2) || href.startsWith(PREFIX_3);
+		return href.matches(REGEX_VISIT);
 	}
 		
 	public static boolean mustProcess(Page page) {
-		return page.getWebURL().getPath().startsWith(FILTER_PATH);
+		return page.getWebURL().getPath().matches(REGEX_FILTER);
 	}
 	
 	private static void process(Page page) {

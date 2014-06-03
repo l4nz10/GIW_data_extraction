@@ -3,7 +3,7 @@ package espn_data_management;
 
 import config.ConfigReader;
 import edu.uci.ics.crawler4j.crawler.Page;
-import fileWriter.HTMLFileWriter;
+import file_writer.HTMLFileWriter;
 
 public class PageAnalyzer {
 	
@@ -12,17 +12,14 @@ public class PageAnalyzer {
 	private static final String STORAGE_PATH = PATH + SITE_PATH;
 
 	private static final String REGEX_VISIT = "^http://espn.go.com/nba/(player/|team/|players).*$";
-	private static final String REGEX_PROCESS = "^/nba/player/_/id/.*$";
+	private static final String REGEX_FILTER = "^/nba/player/_/id/.*$";
 
 	public static boolean shouldVisit(String href) {
-		if (href.matches(REGEX_VISIT)) {
-			return true;
-		}
-		return false;
+		return href.matches(REGEX_VISIT);
 	}
 
 	private static boolean mustProcess(Page page) {
-		return page.getWebURL().getPath().matches(REGEX_PROCESS);
+		return page.getWebURL().getPath().matches(REGEX_FILTER);
 	}
 
 	private static void process(Page page) {

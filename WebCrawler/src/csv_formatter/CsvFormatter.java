@@ -4,7 +4,7 @@ import java.util.List;
 
 public class CsvFormatter {
 	public static String formatString(String s) {
-		return s.replaceAll(";", "");
+		return s.replaceAll("\\s", " ").replaceAll(";", "");
 	}
 	
 	public static String formatListItem(String s) {

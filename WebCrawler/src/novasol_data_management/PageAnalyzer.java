@@ -2,7 +2,7 @@ package novasol_data_management;
 
 import config.ConfigReader;
 import edu.uci.ics.crawler4j.crawler.Page;
-import fileWriter.HTMLFileWriter;
+import file_writer.HTMLFileWriter;
 
 public class PageAnalyzer {
 	
@@ -10,17 +10,15 @@ public class PageAnalyzer {
 	private static final String SITE_PATH = ConfigReader.getNovasolFolderPath();
 	private static final String STORAGE_PATH = PATH + SITE_PATH;
 	
-	
-	private static final String PREFIX_1 = "http://www.novasol.it/r/",
-								PREFIX_2 = "http://www.novasol.it/p/";
-	private static final String FILTER_PATH = "/p/I";
+	private static final String REGEX_VISIT = "^http://www\\.novasol\\.it/[pr]/.*";
+	private static final String REGEX_FILTER = "^/p/I[^C].*";
 	
 	public static boolean shouldVisit(String href) {
-		return href.startsWith(PREFIX_1) || href.startsWith(PREFIX_2);
+		return href.matches(REGEX_VISIT);
 	}
 		
 	public static boolean mustProcess(Page page) {
-		return page.getWebURL().getPath().startsWith(FILTER_PATH);
+		return page.getWebURL().getPath().matches(REGEX_FILTER);
 	}
 	
 	private static void process(Page page) {

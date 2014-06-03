@@ -1,4 +1,4 @@
-package fileWriter;
+package file_writer;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedWriter;

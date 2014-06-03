@@ -27,7 +27,7 @@ public class Controller {
 		config.setPolitenessDelay(500);
 		config.setMaxDepthOfCrawling(-1);
 		config.setMaxPagesToFetch(-1);
-		config.setResumableCrawling(true);
+		config.setResumableCrawling(false);
 		
 		String crawlRootFolder = ConfigReader.getCrawlFolderPath();
 
@@ -75,25 +75,25 @@ public class Controller {
 		 * Start the crawl. This is a blocking operation, meaning that your code
 		 * will reach the line after this only when crawling is finished.
 		 */
-//		novaController.startNonBlocking(NovasolCrawler.class, numberOfCrawlers);
-//		multipController.startNonBlocking(MultiplayerCrawler.class, numberOfCrawlers);
-//		allmusicController.startNonBlocking(AllmusicCrawler.class, numberOfCrawlers);
+		novaController.startNonBlocking(NovasolCrawler.class, numberOfCrawlers);
+		multipController.startNonBlocking(MultiplayerCrawler.class, numberOfCrawlers);
+		allmusicController.startNonBlocking(AllmusicCrawler.class, numberOfCrawlers);
 		espnController.startNonBlocking(EspnCrawler.class, numberOfCrawlers);
 		
 		System.out.println("Crawling has begun. Press any key to stop the process.");
 		
 		System.in.read();
 		
-//		novaController.shutdown();
-//		multipController.shutdown();
-//		allmusicController.shutdown();
+		novaController.shutdown();
+		multipController.shutdown();
+		allmusicController.shutdown();
 		espnController.shutdown();
 		
 		System.out.println("Shutting down. Waiting crawlers to finish...");
 		
-//		novaController.waitUntilFinish();
-//		multipController.waitUntilFinish();
-//		allmusicController.waitUntilFinish();
+		novaController.waitUntilFinish();
+		multipController.waitUntilFinish();
+		allmusicController.waitUntilFinish();
 		espnController.waitUntilFinish();
 		
 		System.out.println("Shutdown complete.");
